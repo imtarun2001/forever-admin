@@ -3,11 +3,11 @@ import { useProductContext } from "../context/ProductContext";
 
 const Add = () => {
 
-  const {imageEmpty, sizeEmpty, productData, changeHandler, createProduct} = useProductContext();
+  const { imageEmpty, sizeEmpty, productData, changeHandler, createProduct } = useProductContext();
 
   const images = ['image1', 'image2', 'image3', 'image4'];
 
-  
+
 
 
 
@@ -18,8 +18,8 @@ const Add = () => {
       {/* upload images */}
       <div>
         <div className="flex justify-start items-center gap-2.5">
-            <p className="mb-2">Upload Image</p>
-            <p className={`${imageEmpty ? `block` : `hidden`} mb-2 text-sm text-red-600`}>Atleast one image is required</p>
+          <p className="mb-2">Upload Image</p>
+          <p className={`${imageEmpty ? `block` : `hidden`} mb-2 text-sm text-red-600`}>Atleast one image is required</p>
         </div>
         <div className="flex gap-2">
           {
@@ -27,11 +27,11 @@ const Add = () => {
               <label key={image} htmlFor={image}>
                 {
                   productData[image] === undefined ?
-                  <img src={assets.upload_area} alt="" className="w-20" />
-                  :
-                  <div className="w-20 h-full border flex flex-col justify-center items-center"><span>{image}</span><span>{productData[image].name}</span></div>
+                    <img src={assets.upload_area} alt="" className="w-20" />
+                    :
+                    <div className="w-20 h-full border flex flex-col justify-center items-center"><span>{image}</span><span>{productData[image].name}</span></div>
                 }
-                <input type="file" name={image} id={image} hidden onChange={changeHandler}/>
+                <input type="file" name={image} id={image} hidden onChange={changeHandler} />
               </label>
             ))
           }
@@ -104,8 +104,8 @@ const Add = () => {
       {/* product sizes */}
       <div>
         <div className="flex justify-start items-center gap-2.5">
-            <p className="mb-2">Product Sizes</p>
-            <p className={`${sizeEmpty ? `block` : `hidden`} mb-2 text-sm text-red-600`}>Atleast one size is required</p>
+          <p className="mb-2">Product Sizes</p>
+          <p className={`${sizeEmpty ? `block` : `hidden`} mb-2 text-sm text-red-600`}>Atleast one size is required</p>
         </div>
         <div className="flex gap-3">
           {
@@ -120,7 +120,7 @@ const Add = () => {
                   value={size}
                   checked={productData.sizes.includes(size)}
                   className="hidden" />
-                  {size}
+                {size}
               </label>
             ))
           }

@@ -1,7 +1,7 @@
 import { axiosInstance } from "./AxiosInstance";
 
 const adminLogin = (data) => axiosInstance.post(`/user/adminLogin`,data);
-const logoutAdmin = () => axiosInstance.post(`user/logoutUser`);
+const adminLogout = () => axiosInstance.post(`user/adminLogout`);
 
 export const adminLoginHandler = async (loginCredentials) => {
     try {
@@ -14,9 +14,9 @@ export const adminLoginHandler = async (loginCredentials) => {
 
 
 
-export const logoutAdminHandler = async () => {
+export const adminLogoutHandler = async () => {
     try {
-        const response = await logoutAdmin();
+        const response = await adminLogout();
         return response;
     } catch (error) {
         throw new Error(error.response?.data?.message || error.message);

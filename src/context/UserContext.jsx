@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useRef, useState } from "react";
-import { adminLoginHandler, logoutAdminHandler } from "../services/AdminApis";
+import { adminLoginHandler, adminLogoutHandler } from "../services/AdminApis";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
@@ -16,7 +16,7 @@ export const UserContextProvider = ({ children }) => {
             password: ''
         }
     );
-    const [accountType,setAccountType] = useState(localStorage.getItem("accountType"));
+    const [accountType,setAccountType] = useState(localStorage.getItem("accountType") ? localStorage.getItem("accountType") : null);
     const openConfirmLogoutModalRef = useRef(null);
     const [openConfirmLogoutModal, setOpenConfirmLogoutModal] = useState(false);
 
@@ -48,18 +48,23 @@ export const UserContextProvider = ({ children }) => {
     const adminLogin = async (event) => {
         try {
             event.preventDefault();
-            const response = await adminLoginHandler(loginCredentials);
-            localStorage.setItem("accountType",response.data.data);
-            setAccountType(response.data.data);
-            setLoginCredentials(prev => (
-                {
-                    ...prev,
-                    email: '',
-                    password: ''
-                }
-            ));
-            navigate('/');
-            toast.success(response.data.message);
+            if(accountType === null) {
+                const response = await adminLoginHandler(loginCredentials);
+                localStorage.setItem("accountType",response.data.data);
+                setAccountType(response.data.data);
+                setLoginCredentials(prev => (
+                    {
+                        ...prev,
+                        email: '',
+                        password: ''
+                    }
+                ));
+                navigate('/');
+                toast.success(response.data.message);
+            } else {
+                toast.error(`already logged in`);
+                return;
+            }
         } catch (error) {
             toast.error(error.message);
         }
@@ -69,13 +74,17 @@ export const UserContextProvider = ({ children }) => {
 
 
     // logout handler
-    const logoutAdmin = async () => {
+    const adminLogout = async () => {
         try {
-            const response = await logoutAdminHandler();
-            localStorage.setItem("accountType",'');
-            setAccountType('');
-            setOpenConfirmLogoutModal(false);
-            toast.success(response.data.message);
+            if(accountType === 'Admin') {
+                const response = await adminLogoutHandler();
+                localStorage.removeItem("accountType");
+                setAccountType(null);
+                setOpenConfirmLogoutModal(false);
+                toast.success(response.data.message);
+            } else {
+                toast.error(`you are not logged in`);
+            }
         } catch (error) {
             toast.error(error.message);
         }
@@ -91,7 +100,7 @@ export const UserContextProvider = ({ children }) => {
         openConfirmLogoutModal, setOpenConfirmLogoutModal,
         changeHandler,
         adminLogin,
-        logoutAdmin,
+        adminLogout,
     };
 
     return <UserContext.Provider value={values}>

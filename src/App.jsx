@@ -10,10 +10,10 @@ import AdminDashboard from "./pages/AdminDashboard"
 
 const App = () => {
 
-  const {accountType,openConfirmLogoutModalRef,openConfirmLogoutModal,setOpenConfirmLogoutModal,logoutAdmin} = useUserContext();
+  const {accountType,openConfirmLogoutModalRef,openConfirmLogoutModal,setOpenConfirmLogoutModal,adminLogout} = useUserContext();
 
-  if (accountType === 'Admin') {
-    return (
+
+    return accountType !== 'Admin' ? <Login/> : (
       <div className={`w-screen flex flex-col justify-start items-center relative`}>
         <Navbar/>
         <div className="w-full flex justify-center items-start">
@@ -34,7 +34,7 @@ const App = () => {
             <div className="absolute flex flex-col border-2 bg-white border-black justify-center items-start gap-10 px-10 py-7 rounded" ref={openConfirmLogoutModalRef}>
               <p className="text-xl">Do you really want to log out ?</p>
               <div className="w-full flex justify-end items-center gap-5">
-                <button className="bg-pink-200 border rounded-md hover:bg-pink-300 px-5 py-2 cursor-pointer tracking-widest" onClick={logoutAdmin}>Yes</button>
+                <button className="bg-pink-200 border rounded-md hover:bg-pink-300 px-5 py-2 cursor-pointer tracking-widest" onClick={adminLogout}>Yes</button>
                 <button className="bg-pink-200 border rounded-md hover:bg-pink-300 px-5 py-2 cursor-pointer tracking-widest" onClick={() => setOpenConfirmLogoutModal(false)}>No</button>
               </div>
             </div>
@@ -42,12 +42,6 @@ const App = () => {
         }
       </div>
     )
-  }
-  else {
-    return (
-      <Login/>
-    )
-  }
 
 }
 

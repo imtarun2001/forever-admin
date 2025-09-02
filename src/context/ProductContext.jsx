@@ -2,10 +2,14 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { createProductHandler, deleteProductHandler, getProductsHandler } from "../services/ProductApis";
 import toast from "react-hot-toast";
 import { getAllOrdersHandler, updateOrderStatusHandler } from "../services/OrderApis";
+import { useUserContext } from "./UserContext";
 
 const ProductContext = createContext();
 
 export const ProductContextProvider = ({ children }) => {
+
+
+    const {accountType} = useUserContext();
 
 
     const [allProducts, setAllProducts] = useState([]);
@@ -143,7 +147,7 @@ export const ProductContextProvider = ({ children }) => {
 
     useEffect(() => {
         getProducts();
-        getAllOrders();
+        if(accountType === 'Admin') getAllOrders();
     }, []);
 
 
