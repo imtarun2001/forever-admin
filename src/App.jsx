@@ -10,10 +10,10 @@ import AdminDashboard from "./pages/AdminDashboard"
 
 const App = () => {
 
-  const {accountType,openConfirmLogoutModalRef,openConfirmLogoutModal,setOpenConfirmLogoutModal,adminLogout} = useUserContext();
+  const {isAdmin,openConfirmLogoutModalRef,openConfirmLogoutModal,setOpenConfirmLogoutModal,adminLogout} = useUserContext();
 
 
-    return accountType !== 'Admin' ? <Login/> : (
+    return isAdmin !== 'Admin' ? <Login/> : (
       <div className={`w-screen flex flex-col justify-start items-center relative`}>
         <Navbar/>
         <div className="w-full flex justify-center items-start">

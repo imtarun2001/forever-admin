@@ -8,7 +8,7 @@ const UserContext = createContext();
 export const UserContextProvider = ({ children }) => {
 
     const navigate = useNavigate();
-    
+
     
     const [loginCredentials, setLoginCredentials] = useState(
         {
@@ -16,7 +16,7 @@ export const UserContextProvider = ({ children }) => {
             password: ''
         }
     );
-    const [accountType,setAccountType] = useState(localStorage.getItem("accountType") ? localStorage.getItem("accountType") : null);
+    const [isAdmin,setIsAdmin] = useState(localStorage.getItem("isAdmin"));
     const openConfirmLogoutModalRef = useRef(null);
     const [openConfirmLogoutModal, setOpenConfirmLogoutModal] = useState(false);
 
@@ -48,10 +48,10 @@ export const UserContextProvider = ({ children }) => {
     const adminLogin = async (event) => {
         try {
             event.preventDefault();
-            if(accountType === null) {
+            if(isAdmin === null) {
                 const response = await adminLoginHandler(loginCredentials);
-                localStorage.setItem("accountType",response.data.data);
-                setAccountType(response.data.data);
+                localStorage.setItem("isAdmin",response.data.data);
+                setIsAdmin(response.data.data);
                 setLoginCredentials(prev => (
                     {
                         ...prev,
@@ -76,10 +76,10 @@ export const UserContextProvider = ({ children }) => {
     // logout handler
     const adminLogout = async () => {
         try {
-            if(accountType === 'Admin') {
+            if(isAdmin === 'Admin') {
                 const response = await adminLogoutHandler();
-                localStorage.removeItem("accountType");
-                setAccountType(null);
+                localStorage.removeItem("isAdmin");
+                setIsAdmin(null);
                 setOpenConfirmLogoutModal(false);
                 toast.success(response.data.message);
             } else {
@@ -95,7 +95,7 @@ export const UserContextProvider = ({ children }) => {
     const values = {
         navigate,
         loginCredentials,setLoginCredentials,
-        accountType,setAccountType,
+        isAdmin,setIsAdmin,
         openConfirmLogoutModalRef,
         openConfirmLogoutModal, setOpenConfirmLogoutModal,
         changeHandler,

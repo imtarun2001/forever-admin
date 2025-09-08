@@ -9,7 +9,7 @@ const ProductContext = createContext();
 export const ProductContextProvider = ({ children }) => {
 
 
-    const {accountType} = useUserContext();
+    const {isAdmin} = useUserContext();
 
 
     const [allProducts, setAllProducts] = useState([]);
@@ -147,7 +147,7 @@ export const ProductContextProvider = ({ children }) => {
 
     useEffect(() => {
         getProducts();
-        if(accountType === 'Admin') getAllOrders();
+        if(isAdmin === 'Admin') getAllOrders();
     }, []);
 
 
